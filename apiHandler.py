@@ -67,4 +67,5 @@ def searchChannel(searchQuery):
             }
 
             return returnStruct
+        print(f"No channel with the specific name {searchQuery} was found!")
         return
