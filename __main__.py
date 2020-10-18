@@ -1,6 +1,15 @@
 import traceback
 
+from os import system as syscall
+
 import windowmanager as winman
+
+
+
+def quit(code):
+    syscall("rm -rfd __pycache__")
+    exit(code)
+
 
 # noinspection PyBroadException
 try:
@@ -11,8 +20,8 @@ except Exception:
     print("Exception occured in runtime:")
     print("")
     print(trace)
-    exit(1)
+    quit(1)
 
 winman.switchView("mainmenu")
 
-exit(0)
+quit(0)

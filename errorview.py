@@ -23,7 +23,7 @@ errorView = View(title="will never be seen, managed by windowmanager")
 
 # Defining functions for buttons
 def quitProgram():
-    winman.close()\
+    winman.close()
 
 
 # Drawing the interface, row by row

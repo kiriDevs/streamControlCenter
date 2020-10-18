@@ -41,4 +41,3 @@ def switchView(to_view_name):
 
 def close():
     mainWin.destroy()
-    exit(0)
