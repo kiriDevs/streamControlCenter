@@ -4,7 +4,11 @@ import windowmanager as winman
 
 # noinspection PyBroadException
 try:
+    # Importing views
     import channelcheckview
+    import titlechangeview
+
+    # Importing Main View
     import mainview
 except Exception:
     trace = traceback.format_exc()
