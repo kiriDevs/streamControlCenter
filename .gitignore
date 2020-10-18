@@ -1,3 +1,4 @@
 pyvenv
 __pycache__
 auth.yml
+.idea

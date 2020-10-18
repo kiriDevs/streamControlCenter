@@ -1,5 +1,7 @@
 import yaml
 
+import windowmanager as winman
+
 auth = None
 
 
@@ -18,7 +20,7 @@ def loadFile(path, defaultStruct, critical):
         file.close()
         if critical:  # Config is critical to be filled and can't use it's default values
             # console.error(f"configHandler.loadFile(...): Critical config \"{path}\" wasn't filled!")
-            exit(1)  # Exiting with code 1 to stop execution
+            fileError(path)
         else:
             return defaultStruct  # Return the default struct that was just written to the file
 
@@ -33,6 +35,8 @@ defaultAuth = {
 def loadAuth():
     global auth
     auth = loadFile("auth.yml", defaultAuth, True)
+    if auth == defaultAuth:
+        fileError("auth.yml")
 
 
 def getAuth():
@@ -42,3 +46,9 @@ def getAuth():
     else:
         loadAuth()
         return auth
+
+
+def fileError(filename):
+    import errorview
+    errorview.file(filename)
+    winman.switchView("error")
