@@ -2,6 +2,8 @@ import requests
 
 from configHandler import getAuth
 
+from Exceptions import InvalidTitleException
+
 
 def twitchAPI(string):
     if string.startswith("/"):
@@ -94,3 +96,28 @@ def getSelf():
         "id": myID
     }
     return returnStruct
+
+
+def setTitle(new_title):
+    if len(new_title) > 140:  # 140 is the max length for Twitch titles
+        raise TitleTooLongException
+
+    myID = getSelf()["id"]
+
+    oauthToken = getAuth()["oauth"]
+    authString = f"Bearer {oauthToken}"
+
+    headers = {
+        "client-id": getAuth()["clientid"],
+        "Authorization": authString
+    }
+    parameters = {
+        "broadcaster_id": myID,
+        "title": new_title
+    }
+
+    request = requests.patch(twitchAPI("/helix/channels"), headers=headers, params=parameters)
+    response = request
+
+    if request.status_code != 204:  # 204 is returned when the change worked
+        raise Exception("An Unknown Error occured while trying to change the title of the stream!")
