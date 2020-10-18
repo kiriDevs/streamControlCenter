@@ -4,3 +4,7 @@ class ChannelNotFoundException(Exception):
 
 class IllegalChannelNameException(Exception):
     pass
+
+
+class InternalTwitchError(Exception):
+    pass
