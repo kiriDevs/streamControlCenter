@@ -71,7 +71,7 @@ liveStatusLabel = UILabel(channelCheckFrame, text="Live status:")
 liveStatusResult = UILabel(channelCheckFrame, text="?", wraplength=200)
 channelCheckView.addLine([liveStatusLabel, liveStatusResult])
 
-titleLabel = UILabel(channelCheckFrame, text="Stream label:")
+titleLabel = UILabel(channelCheckFrame, text="Stream title:")
 titleResult = UILabel(channelCheckFrame, text="?", wraplength=200)
 channelCheckView.addLine([titleLabel, titleResult])
 
