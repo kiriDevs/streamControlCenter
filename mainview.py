@@ -20,11 +20,17 @@ def quitProgram():
 
 
 # Drawing the interface, row by row
-channelCheckButton = UIButton(mainMenuFrame, text="Open Channel Check...", command=openChannelCheck)
-mainMenuView.addLine([channelCheckButton])
+menuFrame = UIFrame(mainMenuFrame)
+
+channelCheckButton = UIButton(menuFrame, text="Open Channel Check...", command=openChannelCheck)
+mainMenuView.addLine([menuFrame])
+
 
 quitButton = UIButton(mainMenuFrame, text="Quit", command=quitProgram)
 mainMenuView.addLine([quitButton])
+
+# GRIDing frame members
+channelCheckButton.grid(row=0, column=0)
 
 # Finishing up: Registering channelCheckView
 winman.registerView(mainMenuView, "mainmenu")
