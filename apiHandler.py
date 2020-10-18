@@ -2,6 +2,8 @@ import requests
 
 from configHandler import getAuth
 
+from Exceptions import InvalidTitleException
+
 
 def twitchAPI(string):
     if string.startswith("/"):
@@ -69,3 +71,53 @@ def searchChannel(searchQuery):
             return returnStruct
         print(f"No channel with the specific name {searchQuery} was found!")
         return
+
+
+def getSelf():
+    oauthToken = getAuth()["oauth"]
+    authString = f"Bearer {oauthToken}"
+
+    headers = {"Authorization": authString}
+    request = requests.get("https://id.twitch.tv/oauth2/validate", headers=headers)
+    response = request.json()
+
+    try:
+        myName = response["login"]
+        myID = response["user_id"]
+    except KeyError:
+        error = request.json()["error"]
+        status = request.json()["status"]
+        message = request.json()["message"]
+        print(f"Error while searching for channels: {status}: {error} - {message}")
+        return
+
+    returnStruct = {
+        "name": myName,
+        "id": myID
+    }
+    return returnStruct
+
+
+def setTitle(new_title):
+    if len(new_title) > 140:  # 140 is the max length for Twitch titles
+        raise TitleTooLongException
+
+    myID = getSelf()["id"]
+
+    oauthToken = getAuth()["oauth"]
+    authString = f"Bearer {oauthToken}"
+
+    headers = {
+        "client-id": getAuth()["clientid"],
+        "Authorization": authString
+    }
+    parameters = {
+        "broadcaster_id": myID,
+        "title": new_title
+    }
+
+    request = requests.patch(twitchAPI("/helix/channels"), headers=headers, params=parameters)
+    response = request
+
+    if request.status_code != 204:  # 204 is returned when the change worked
+        raise Exception("An Unknown Error occured while trying to change the title of the stream!")
