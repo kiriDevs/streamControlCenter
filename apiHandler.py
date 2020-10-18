@@ -69,3 +69,28 @@ def searchChannel(searchQuery):
             return returnStruct
         print(f"No channel with the specific name {searchQuery} was found!")
         return
+
+
+def getSelf():
+    oauthToken = getAuth()["oauth"]
+    authString = f"Bearer {oauthToken}"
+
+    headers = {"Authorization": authString}
+    request = requests.get("https://id.twitch.tv/oauth2/validate", headers=headers)
+    response = request.json()
+
+    try:
+        myName = response["login"]
+        myID = response["user_id"]
+    except KeyError:
+        error = request.json()["error"]
+        status = request.json()["status"]
+        message = request.json()["message"]
+        print(f"Error while searching for channels: {status}: {error} - {message}")
+        return
+
+    returnStruct = {
+        "name": myName,
+        "id": myID
+    }
+    return returnStruct
