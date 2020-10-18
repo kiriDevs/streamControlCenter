@@ -15,13 +15,18 @@ def openChannelCheck():
     winman.switchView("channelcheck")
 
 
+def openTitleChange():
+    winman.switchView("titlechanger")
+
+
 def quitProgram():
     winman.close()
 
 
 # Drawing the interface, row by row
 channelCheckButton = UIButton(mainMenuFrame, text="Open Channel Check...", command=openChannelCheck)
-mainMenuView.addLine([channelCheckButton])
+titleChangeButton = UIButton(mainMenuFrame, text="Open Title Change...", command=openTitleChange)
+mainMenuView.addLine([channelCheckButton, titleChangeButton])
 
 quitButton = UIButton(mainMenuFrame, text="Quit", command=quitProgram)
 mainMenuView.addLine([quitButton])
