@@ -4,3 +4,11 @@ class ChannelNotFoundException(Exception):
 
 class IllegalChannelNameException(Exception):
     pass
+
+
+class InvalidTitleException(Exception):
+    pass
+
+
+class TitleTooLongException(InvalidTitleException):
+    pass
