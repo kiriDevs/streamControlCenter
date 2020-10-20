@@ -82,18 +82,23 @@ def getSelf():
     response = request.json()
 
     try:
+        clientID = response["client_id"]
         myName = response["login"]
+        scopes = response["scopes"]
         myID = response["user_id"]
+        oAuthExpiresIn = response["expires_in"]
     except KeyError:
-        error = request.json()["error"]
         status = request.json()["status"]
         message = request.json()["message"]
         print(f"Error while searching for channels: {status}: {error} - {message}")
         return
 
     returnStruct = {
-        "name": myName,
-        "id": myID
+        "clientid": clientID,
+        "username": myName,
+        "scopes": scopes,
+        "userid": myID,
+        "auth_expiry": oAuthExpiresIn
     }
     return returnStruct
 

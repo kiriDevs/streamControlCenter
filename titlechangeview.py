@@ -12,12 +12,12 @@ from inputHandler import changeEntryText
 def on_load():
     me = getSelf()  # Get ID and name of the currently authorized user
 
-    youValueName.config(text=me["name"])  # Displaying displayname
-    idFormat = "(" + me["id"] + ")"
+    youValueName.config(text=me["username"])  # Displaying displayname
+    idFormat = "(" + me["userid"] + ")"
     youValueId.config(text=idFormat)  # Displaying broadcaster ID
 
     # Gather current title to display in the box at start
-    myProfile = searchChannel(me["name"])  # Empty result shouldn't be possible
+    myProfile = searchChannel(me["username"])  # Empty result shouldn't be possible
     myTitle = myProfile["title"]
 
     changeEntryText(titleField, myTitle)
