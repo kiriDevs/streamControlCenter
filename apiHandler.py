@@ -107,7 +107,7 @@ def setTitle(new_title):
     if len(new_title) > 140:  # 140 is the max length for Twitch titles
         raise TitleTooLongException
 
-    myID = getSelf()["id"]
+    myID = getSelf()["userid"]
 
     oauthToken = getAuth()["oauth"]
     authString = f"Bearer {oauthToken}"
