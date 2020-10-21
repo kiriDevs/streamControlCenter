@@ -25,7 +25,7 @@ def resetValues():
 # Creating and adding the frame; Creating the view
 channelCheckFrame = UIFrame(winman.mainWin)
 channelCheckFrame.grid()
-channelCheckView = View("Main Menu", on_load=resetValues)
+channelCheckView = View("Channel Check", on_load=resetValues)
 
 
 # Defining functions for buttons
