@@ -30,6 +30,10 @@ channelCheckView = View("Channel Check", on_load=resetValues)
 
 # Defining functions for buttons
 def checkChannel():
+    liveStatusResult.config(text="...")
+    titleResult.config(text="...")
+    followerResult.config(text="...")
+    
     searchQuery = enterChannelEntry.get()
 
     try:
