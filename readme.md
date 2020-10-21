@@ -2,7 +2,7 @@
 A simple Control Center for your stream on Twitch, written in Python using the TwitchAPI, requests and tkinter!
 
 ## Installation
-At first, make sure you meet all the requirements in terms of dependencies. You can install all of them via `pip install [package name]` (or `pip3 ...` if you are using multiple pip installations).
+At first, make sure you meet all the requirements in terms of dependencies. You can install all of them via `pip install [package name]` (or `pip3 install [package name]` if you are using multiple pip installations).
 #### Dependencies
 - `tkinter`
 - `requests`
