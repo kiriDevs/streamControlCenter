@@ -2,7 +2,10 @@ import requests
 
 from configHandler import getAuth
 
-from Exceptions import InvalidTitleException
+from Exceptions import TitleTooLongException
+from Exceptions import ConnectionFailedError
+
+from requests.exceptions import ConnectionError
 
 
 def twitchAPI(string):
@@ -22,7 +25,11 @@ def getFollowerNumber(channelID):
         "Authorization": authString
     }
 
-    request = requests.get(twitchAPI("/helix/users/follows"), headers=headers, params=parameters)
+    try:
+        request = requests.get(twitchAPI("/helix/users/follows"), headers=headers, params=parameters)
+    except ConnectionError:
+        raise ConnectionFailedError("Couldn't connect to TwitchAPI!")
+
     try:
         result = request.json()["total"]
         return result
@@ -46,7 +53,11 @@ def searchChannel(searchQuery):
         "Authorization": authString
     }
 
-    request = requests.get(twitchAPI("/helix/search/channels"), headers=headers, params=parameters)
+    try:
+        request = requests.get(twitchAPI("/helix/search/channels"), headers=headers, params=parameters)
+    except ConnectionError:
+        raise ConnectionFailedError("Couldn't connect to TwitchAPI!")
+
     try:
         results = request.json()["data"]
     except KeyError:
@@ -78,7 +89,12 @@ def getSelf():
     authString = f"Bearer {oauthToken}"
 
     headers = {"Authorization": authString}
-    request = requests.get("https://id.twitch.tv/oauth2/validate", headers=headers)
+
+    try:
+        request = requests.get("https://id.twitch.tv/oauth2/validate", headers=headers)
+    except ConnectionError:
+        raise ConnectionFailedError("Couldn't connect to TwitchAPI!")
+
     response = request.json()
 
     try:
@@ -105,7 +121,7 @@ def getSelf():
 
 def setTitle(new_title):
     if len(new_title) > 140:  # 140 is the max length for Twitch titles
-        raise TitleTooLongException
+        raise TitleTooLongException("Stream titles can only have up to 140 characters!")
 
     myID = getSelf()["userid"]
 
@@ -121,8 +137,10 @@ def setTitle(new_title):
         "title": new_title
     }
 
-    request = requests.patch(twitchAPI("/helix/channels"), headers=headers, params=parameters)
-    response = request
+    try:
+        request = requests.patch(twitchAPI("/helix/channels"), headers=headers, params=parameters)
+    except ConnectionError:
+        raise ConnectionFailedError("Couldn't connect to TwitchAPI!")
 
     if request.status_code != 204:  # 204 is returned when the change worked
         raise Exception("An Unknown Error occured while trying to change the title of the stream!")

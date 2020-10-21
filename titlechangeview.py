@@ -8,9 +8,17 @@ import windowmanager as winman
 from apiHandler import getSelf, setTitle, searchChannel
 from inputHandler import changeEntryText
 
+from Exceptions import TitleTooLongException
+from Exceptions import ConnectionFailedError
+
 # Creating a function for what to do before the view is shown
 def on_load():
-    me = getSelf()  # Get ID and name of the currently authorized user
+    try:
+        me = getSelf()  # Get ID and name of the currently authorized user
+    except ConnectionFailedError:
+        youValueName.config(text="Error contacting the TwitchAPI!")
+        youValueId.config(text="(Sorry about that)")
+        return
 
     youValueName.config(text=me["username"])  # Displaying displayname
     idFormat = "(" + me["userid"] + ")"
@@ -40,7 +48,18 @@ def clearConfirmationLabel():
 
 def confirmButton():
     titleInput = titleField.get()
-    setTitle(titleInput)
+
+    try:
+        setTitle(titleInput)
+    except TitleTooLongException:
+        confirmationLabel.config(text="Title is too long!")
+        confirmationLabel.after(3000, clearConfirmationLabel)
+        return
+    except ConnectionFailedError:
+        confirmationLabel.config(text="A connection error occured!")
+        confirmationLabel.after(3000, clearConfirmationLabel)
+        return
+
     confirmationLabel.config(text="Title set!")
     confirmationLabel.after(3000, clearConfirmationLabel)
 
@@ -65,7 +84,7 @@ titleChangeView.addLine([instructionFrame, titleField, confirmButton])
 
 backButton = UIButton(titleChangeFrame, text="<--", command=backButton)
 lowerRowSpacer = UILabel(titleChangeFrame)
-confirmationLabel = UILabel(titleChangeFrame)
+confirmationLabel = UILabel(titleChangeFrame, width=20)
 # # # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = # # #
 titleChangeView.addLine([backButton, lowerRowSpacer, confirmationLabel])
 

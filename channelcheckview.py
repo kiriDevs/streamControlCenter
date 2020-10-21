@@ -6,7 +6,9 @@ from tkinter import Entry as UITextField
 from tkinter import Button as UIButton
 
 import inputHandler
-from Exceptions import ChannelNotFoundException, IllegalChannelNameException
+from Exceptions import ChannelNotFoundException
+from Exceptions import IllegalChannelNameException
+from Exceptions import ConnectionFailedError
 from View import View
 
 import windowmanager as winman
@@ -33,7 +35,7 @@ def checkChannel():
     liveStatusResult.config(text="...")
     titleResult.config(text="...")
     followerResult.config(text="...")
-    
+
     searchQuery = enterChannelEntry.get()
 
     try:
@@ -43,6 +45,9 @@ def checkChannel():
         return
     except IllegalChannelNameException:
         inputHandler.changeEntryText(enterChannelEntry, "### Invalid channel name!")
+        return
+    except ConnectionFailedError:
+        inputHandler.changeEntryText(enterChannelEntry, "### Connection to API failed!")
         return
 
     # Set liveStatusResult

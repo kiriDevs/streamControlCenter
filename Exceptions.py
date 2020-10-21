@@ -16,3 +16,7 @@ class TitleTooLongException(InvalidTitleException):
 
 class InternalTwitchError(Exception):
     pass
+
+
+class ConnectionFailedError(Exception):
+    pass
