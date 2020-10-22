@@ -4,6 +4,7 @@ import apiHandler
 
 from Exceptions import ChannelNotFoundException
 from Exceptions import IllegalChannelNameException
+from Exceptions import StreamNotFoundException
 
 
 def changeEntryText(forEntryField, toValue):
@@ -33,5 +34,12 @@ def searchChannel(query):
 
     if result is None:
         raise ChannelNotFoundException(f"Channel {query} wasn't found!")
+
+    try:
+        viewers = apiHandler.getStream(channel_name=query)["viewer_count"]
+    except StreamNotFoundException:
+        viewers = None
+
+    result["viewers"] = viewers
 
     return result

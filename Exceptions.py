@@ -2,6 +2,10 @@ class ChannelNotFoundException(Exception):
     pass
 
 
+class StreamNotFoundException(Exception):
+    pass
+    
+
 class IllegalChannelNameException(Exception):
     pass
 

@@ -4,8 +4,14 @@ from configHandler import getAuth
 
 from Exceptions import TitleTooLongException
 from Exceptions import ConnectionFailedError
+from Exceptions import InternalTwitchError
+from Exceptions import AuthorizationError
+from Exceptions import UnknownError
+from Exceptions import StreamNotFoundException
 
 from requests.exceptions import ConnectionError
+
+from json.decoder import JSONDecodeError
 
 
 def twitchAPI(string):
@@ -13,6 +19,70 @@ def twitchAPI(string):
         return f"https://api.twitch.tv{string}"
     else:
         return f"https://api.twitch.tv/{string}"
+
+
+def getStream(channel_id=None, channel_name=None):
+    # Param checking
+    if channel_id is None and channel_name is None:
+        raise ValueError("You need to pass either a channel_id or a channel_name")
+    if channel_id is not None and channel_name is not None:
+        raise ValueError("You can only pass either a channel_id or a channel_name")
+
+    # Prepare the request
+    url = twitchAPI("/helix/streams")
+
+    clid = getAuth()["clientid"]
+    oauth = getAuth()["oauth"]
+    headers = {
+        "client-id": clid,
+        "Authorization": f"Bearer {oauth}"
+    }
+
+    if channel_id is not None:
+        params = { "user_id": channel_id }
+    if channel_name is not None:
+        params = { "user_login": channel_name }
+
+    response = requests.get(url, headers=headers, params=params)
+
+    try:
+        json = response.json()
+        results = json["data"]
+    except JSONDecodeError:  # No JSON was returned
+        raise InternalTwitchError("Didn't get JSON response for request!")
+    except KeyError:  # field "data" doesn't exists
+        try:
+            # Check status code to see why the request failed
+            status = json["status"]
+
+            if status == 200:  # 200 - OK
+                raise UnknownError("Got 200 but bad response")
+            elif status == 401:  # 401 - Unauthorized
+                raise AuthorizationError("Got 401 from Twitch")
+            elif status == 500:  # 500 - Internal Error
+                raise InternalTwitchError("Got 500 from Twitch")
+            elif status == 502:  # 502 - Bad Gateway
+                raise ConnectionFailedError("Got 502 after API call")
+
+            # None of the default errors apply
+            error = json["error"]
+            message = json["message"]
+            msg = f"Error while checking viewer number: {status}: {error} - {message}"
+            raise UnknownError(msg)
+        except KeyError:  # Typical error fields don't exist aswell
+            code = response.status_code
+            raise UnknownError(f"Got {code}, wanted stream info as JSON")
+
+    stream = None  # The result we were searching for, default to None
+    for result in results:
+        if result["user_id"] == channel_id or result["user_name"] == channel_name:
+            stream = result
+            break
+
+    if stream is not None:
+        return stream
+    else:
+        raise StreamNotFoundException("That channel is not live right now!")
 
 
 def getFollowerNumber(channelID):
