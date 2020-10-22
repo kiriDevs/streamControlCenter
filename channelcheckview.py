@@ -23,6 +23,7 @@ locale.setlocale(locale.LC_ALL, '')
 def resetValues():
     inputHandler.changeEntryText(enterChannelEntry, "kirimctwitch")
     liveStatusResult.config(text="?")
+    viewerResult.config(text="?")
     titleResult.config(text="?")
     followerResult.config(text="?")
 
