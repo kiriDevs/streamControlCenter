@@ -24,3 +24,7 @@ class ConnectionFailedError(Exception):
 
 class UnknownError(Exception):
     pass
+
+
+class AuthorizationError(Exception):
+    pass
