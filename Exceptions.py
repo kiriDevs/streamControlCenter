@@ -20,3 +20,7 @@ class InternalTwitchError(Exception):
 
 class ConnectionFailedError(Exception):
     pass
+
+
+class UnknownError(Exception):
+    pass
