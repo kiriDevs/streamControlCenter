@@ -1,9 +1,9 @@
-locale
+# locale  # Commented because it is built-in
 
 pyyaml
 
-re
+# re  # Commented because it is built-in
 requests
 
-tkinter
+# tkinter  # Commented because it is built-in
 tqdm
