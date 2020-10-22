@@ -2,7 +2,14 @@ import re
 
 import apiHandler
 
-from Exceptions import ChannelNotFoundException, IllegalChannelNameException
+from Exceptions import ChannelNotFoundException
+from Exceptions import IllegalChannelNameException
+
+
+def changeEntryText(forEntryField, toValue):
+    contentLength = len(forEntryField.get())
+    forEntryField.delete(0, contentLength)  # Deleting current content
+    forEntryField.insert(0, toValue)  # Writing new string
 
 
 def isAllowedUserName(string):
@@ -16,12 +23,6 @@ def isAllowedUserName(string):
         return False
 
     return True
-
-
-def changeEntryText(forEntryField, toValue):
-    contentLength = len(forEntryField.get())
-    forEntryField.delete(0, contentLength)  # Deleting current content
-    forEntryField.insert(0, toValue)  # Writing new string
 
 
 def searchChannel(query):
