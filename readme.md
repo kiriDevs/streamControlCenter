@@ -4,9 +4,13 @@ A simple Control Center for your stream on Twitch, written in Python using the T
 ## Installation
 At first, make sure you meet all the requirements in terms of dependencies. You can install all of them via `pip install [package name]` (or `pip3 install [package name]` if you are using multiple pip installations).
 #### Dependencies
-- `tkinter`
+- `locale`
+- `pyyaml`
+- `re`
 - `requests`
+- `tkinter`
 - `tqdm`
+
 
 Download the files in this repository and make sure to keep them all in a single directory. You can rename the directory, obviously, but make sure they all share the same path.
 

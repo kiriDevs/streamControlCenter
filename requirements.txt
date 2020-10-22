@@ -1,0 +1,9 @@
+locale
+
+pyyaml
+
+re
+requests
+
+tkinter
+tqdm
