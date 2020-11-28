@@ -1,5 +1,8 @@
 # streamControlCenter
-A simple Control Center for your stream on Twitch, written in Python using the TwitchAPI, requests and tkinter!
+> This program is not complete. However, it will not receive anymore updates. I feel like I learned everything I wanted to learn by doing this, which is why I decided to stop investing more time. Whenever mentioned in this file, ignore any further statements concerning further updates, both implicitly or explicitly.
+
+A simple Control Center for your stream on Twitch, written in Python using the TwitchAPI, requests and tkinter! <br>
+(**Warning**: This project was never intended to ever be a complete usage of the API or to be especially good too use. I created this project to learn using APIs with HTTP(S) requests directly (here using the Twitch Helix API as an example), without API wrappers. It was also my first attempt at using Tkinter to create GUIs.)
 
 ## Installation
 At first, make sure you meet all the requirements in terms of dependencies. You can install all of them via `pip install [package name]` (or `pip3 install [package name]` if you are using multiple pip installations).
