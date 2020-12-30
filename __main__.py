@@ -20,8 +20,8 @@ print("Creating views...")
 # noinspection PyBroadException
 try:
     # Creating a loading bar for the view imports
-    for i in tqdm(range(len(viewImports))):
-        exec(viewImports[i])
+    for view_import in tqdm(view_imports):
+        exec(view_import)
 
 except Exception:
     trace = traceback.format_exc()
